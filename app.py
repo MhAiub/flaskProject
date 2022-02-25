@@ -9,6 +9,7 @@ app = Flask(__name__)
 def get_logs_from_github():
     repo = git.Git('https://github.com/MhAiub/flaskProject/')
     logs = repo.log()
+
     return jsonify(logs), 200
 
 
