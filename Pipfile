@@ -21,6 +21,13 @@ openpyxl = "*"
 pandas = "*"
 xlwt = "*"
 styleframe = "*"
+sh = "*"
+flask-serialize = "*"
+flask-restless = "*"
+python-git = "*"
+gitpython = "*"
+pydriller = "*"
+python-git-info = "*"
 
 [dev-packages]
 
