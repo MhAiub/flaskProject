@@ -5,6 +5,13 @@ name = "pypi"
 
 [packages]
 flask = "*"
+sh = "*"
+flask-serialize = "*"
+flask-restless = "*"
+python-git = "*"
+gitpython = "*"
+pydriller = "*"
+python-git-info = "*"
 
 [dev-packages]
 
