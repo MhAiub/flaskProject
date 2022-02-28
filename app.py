@@ -32,7 +32,7 @@ for link in links_1:
     soup_data = BeautifulSoup(html_source, 'html.parser')
     
 
-for link in links_2:
+for link_ in links_2:
     
     if "https://www.bbc.com" in link:
         query = link_url
@@ -43,12 +43,18 @@ for link in links_2:
     html_source = driver.page_source
     soup_data = BeautifulSoup(html_source, 'html.parser')
     
-header = soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10"}) if header else 'no data found' 
-description = soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00"}) if description else 'no data found' 
+#header = soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10"})
+#description = soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00"}) if description else 'no data found'
+
+
+header = [data for data in soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10)] # Getting all the header 
+
+description = [data for data in soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00)]
 
 
 
-excel_data = {'Link': links_1, 'link_2': links_2, 'title':header, 'description':description,  }
+
+excel_data = {'Link': link_1, 'link_2': link_2, 'title':header, 'description':description,  }
 df = pd.DataFrame(excel_data, columns=['Link', 'link_2', 'title', 'description' ])
 df.to_excel(r'test_data.xlsx', index=False, header=True)
 
