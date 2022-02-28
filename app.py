@@ -46,10 +46,9 @@ for link_ in links_2:
 #description = soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00"}) if description else 'no data found'
 
 
-header = [data for data in soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10)] # Getting all the header 
+header = [data for data in soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10")] # Getting all the header 
 
-description = [data for data in soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00)]
-
+description = [data for data in soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00")]
 
 
 
