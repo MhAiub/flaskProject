@@ -52,7 +52,7 @@ description = [data for data in soup_data.find_all('p', {'class': "ssrcss-1q0x1q
 
 
 
-excel_data = {'Link': link_1, 'link_2': link_2, 'title':header, 'description':description,  }
+excel_data = {'Link': links_1, 'links_2': link_2, 'title':header, 'description':description,  }
 df = pd.DataFrame(excel_data, columns=['Link', 'link_2', 'title', 'description' ])
 df.to_excel(r'test_data.xlsx', index=False, header=True)
 
