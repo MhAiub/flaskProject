@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-
-# from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+import time
 
 update_link = 'https://www.bbc.com'
 base_url = 'https://www.bbc.com/'
@@ -16,10 +15,12 @@ soup = BeautifulSoup(html_source, 'html.parser')
 
 links_1 = [data['href'] for data in soup.find_all('a', {'class': "block-link__overlay-link"})]
 links_2 = [data['href'] for data in soup.find_all('a', {'class': "media__link"})]
+delay = 1 # seconds
 
 links_1.extend(links_2)
 head_li = []
 desc_li = []
+lin_li = []
 
 for link in links_1:
     try:
@@ -27,7 +28,8 @@ for link in links_1:
             links = link
         else:
             links = update_link + link
-
+        time.sleep(3)
+        print('i am sleeping')
         driver.get(links)
         html_source = driver.page_source
         soup_data = BeautifulSoup(html_source, 'html.parser')
@@ -37,28 +39,25 @@ for link in links_1:
         if header_data and description_data:
             header = header_data.get_text()
             description = description_data.get_text()
-            print(link)
 
             if header:
                 header = header
-                print('hhhh__',header)
             else:
                 header = 'Not found'
 
             if description:
                 description = description
-                print('desc_________',description)
             else:
                 description = 'Not found'
 
             head_li.append(header)
             desc_li.append(description)
+            lin_li.append(links)
 
-            excel_data = {'Link': links_1, 'title': head_li, 'description': desc_li}
-            df = pd.DataFrame(excel_data, columns=['Link', 'title', 'description'])
-            import pdb;pdb.set_trace()
-            df.transpose()
-            df.to_excel(r'test_data.xlsx', index=False, header=True)
+        excel_data = {'Link': lin_li, 'title': head_li, 'description': desc_li}
+        df = pd.DataFrame(excel_data, columns=['Link', 'title', 'description'])
+        df.transpose()
+        df.to_excel(r'test_data.xlsx', index=False, header=True)
 
     except Exception as e:
         print(e)
