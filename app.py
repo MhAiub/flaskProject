@@ -1,17 +1,15 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+
+# from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 
-
-path = "C:\\Users\\AYSHA\\.wdm\\drivers\\chromedriver\\win32\\98.0.4758.102\\chromedriver"
-
-# data = soup.find('a', {'class':"block-link__overlay-link"})
-
-link_url = 'https://www.bbc.com'
-driver = webdriver.Chrome(path)
-
+update_link = 'https://www.bbc.com'
 base_url = 'https://www.bbc.com/'
+path = "/home/expo/.wdm/drivers/chromedriver/linux64/96.0.4664.45/chromedriver"
+
+driver = webdriver.Chrome(executable_path=path)
+
 driver.get(base_url)
 html_source = driver.page_source
 soup = BeautifulSoup(html_source, 'html.parser')
@@ -19,62 +17,48 @@ soup = BeautifulSoup(html_source, 'html.parser')
 links_1 = [data['href'] for data in soup.find_all('a', {'class': "block-link__overlay-link"})]
 links_2 = [data['href'] for data in soup.find_all('a', {'class': "media__link"})]
 
+links_1.extend(links_2)
+head_li = []
+desc_li = []
 
-
-print('_____________________ Entering for loap -------------------')
 for link in links_1:
     try:
         if "https://www.bbc.com" in link:
-            query = link
+            links = link
         else:
-            query = link_url+link
-        
-        driver.get(query)
+            links = update_link + link
+
+        driver.get(links)
         html_source = driver.page_source
         soup_data = BeautifulSoup(html_source, 'html.parser')
+        header_data = soup_data.find('h1')
+        description_data = soup_data.find('p')
+
+        if header_data and description_data:
+            header = header_data.get_text()
+            description = description_data.get_text()
+            print(link)
+
+            if header:
+                header = header
+                print('hhhh__',header)
+            else:
+                header = 'Not found'
+
+            if description:
+                description = description
+                print('desc_________',description)
+            else:
+                description = 'Not found'
+
+            head_li.append(header)
+            desc_li.append(description)
+
+            excel_data = {'Link': links_1, 'title': head_li, 'description': desc_li}
+            df = pd.DataFrame(excel_data, columns=['Link', 'title', 'description'])
+            import pdb;pdb.set_trace()
+            df.transpose()
+            df.to_excel(r'test_data.xlsx', index=False, header=True)
 
     except Exception as e:
         print(e)
-            
-
-      
-for link_t in links_2:
-    try:
-        if "https://www.bbc.com" in link_t:
-            query = link_t
-        else:
-            query = link_url+link_t
-        print('_____________________ Entering for data -------------------')
-        driver.get(query)
-        html_source = driver.page_source
-        soup_data = BeautifulSoup(html_source, 'html.parser')
-    except Exception as e:
-        print(e)
-    
-    
-headers = soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10"})
-descriptions = soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00"})
-
-if headers:
-    header = headers
-else:
-    header = 'no data found'
-
-if descriptions:
-    description = descriptions
-else:
-    descriptions = 'no data found'
-
-
-
-
-
-header = [data for data in soup_data.find_all('h1', {'class': "ssrcss-gcq6xq-StyledHeading e1fj1fc10"})] # Getting all the header 
-
-description = [data for data in soup_data.find_all('p', {'class': "ssrcss-1q0x1qg-Paragraph eq5iqo00"})]
-
-
-
-excel_data = {'Link': links_1, 'link_2': links_2, 'title':header,'description': description  }
-df = pd.DataFrame(excel_data, columns=['Link', 'link_2', 'title', 'description' ])
-df.to_excel(r'test_data.xlsx', index=False, header=True)

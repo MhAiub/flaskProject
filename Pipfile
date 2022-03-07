@@ -4,30 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-sh = "*"
-flask-serialize = "*"
-flask-restless = "*"
-python-git = "*"
-gitpython = "*"
-pydriller = "*"
-python-git-info = "*"
+bs4 = "*"
 selenium = "*"
-webdriver-manager = "*"
-install = "*"
-pillow = "*"
-beautifulsoup4 = "*"
-openpyxl = "*"
 pandas = "*"
-xlwt = "*"
-styleframe = "*"
-sh = "*"
-flask-serialize = "*"
-flask-restless = "*"
-python-git = "*"
-gitpython = "*"
-pydriller = "*"
-python-git-info = "*"
+lxml = "*"
+html2text = "*"
 
 [dev-packages]
 
